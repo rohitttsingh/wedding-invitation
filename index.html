@@ -79,15 +79,6 @@
   .hero-date{margin-top:26px;position:relative;z-index:2;font-family:"Marcellus",serif;letter-spacing:3px;
     font-size:1.05rem;color:#fff;opacity:0;animation:fadeUp 1s ease forwards 2.1s;}
   .hero-date b{color:var(--pink-soft);}
-  /* scratch-to-reveal date */
-  .scratch{position:relative;width:min(84%,300px);height:78px;margin:26px auto 0;border-radius:14px;overflow:hidden;z-index:2;}
-  .scratch-under{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;}
-  .scratch .sd-day,.scratch .sd-time{font-family:"Marcellus",serif;letter-spacing:3px;font-size:.72rem;color:var(--pink-soft);text-transform:uppercase;}
-  .scratch .sd-main{font-family:"Rozha One",serif;font-size:1.55rem;line-height:1;color:#fff;letter-spacing:.5px;}
-  .scratch-canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none;cursor:crosshair;}
-  .scratch.revealed .scratch-canvas{opacity:0;transition:opacity .7s ease;pointer-events:none;}
-  .scratch-hint{margin:10px auto 0;position:relative;z-index:2;font-family:"Marcellus",serif;letter-spacing:2px;
-    font-size:.66rem;text-transform:uppercase;color:var(--gold-lt);transition:opacity .5s ease;}
   .scroll-hint{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);z-index:3;
     color:rgba(255,255,255,.85);font-family:"Marcellus",serif;letter-spacing:2px;font-size:.72rem;
     text-transform:uppercase;text-align:center;opacity:0;animation:fadeIn 1s ease forwards 2.6s;}
@@ -633,15 +624,7 @@
     <span class="weds">weds</span>
     <span class="name n2">Vaishnavi</span>
   </div>
-  <div class="scratch" id="scratchDate">
-    <div class="scratch-under">
-      <span class="sd-day">Sunday</span>
-      <span class="sd-main">24 January 2027</span>
-      <span class="sd-time">10 AM</span>
-    </div>
-    <canvas class="scratch-canvas" id="scratchCanvas"></canvas>
-  </div>
-  <p class="scratch-hint" id="scratchHint">&#128072; Scratch to reveal the date</p>
+  <p class="hero-date">SUNDAY · <b>24 JANUARY 2027</b> · 10 AM</p>
   <p class="hero-date" style="animation-delay:2.3s;font-size:.9rem;letter-spacing:2px;">Pancham Party Plot, Vadodara</p>
   <div class="scroll-hint">Scroll for details<svg class="ic"><use href="#i-chevron"/></svg></div>
 </section>
@@ -676,7 +659,6 @@
 <section class="story">
   <svg class="sticker" viewBox="0 0 48 48" style="top:22px;right:20px;width:48px;height:48px;opacity:.95;--r:12deg"><use href="#c-pingpong"/></svg>
   <svg class="sticker" viewBox="0 0 48 48" style="bottom:22px;left:20px;width:46px;height:46px;opacity:.95;--r:-10deg;animation-delay:-3s"><use href="#c-tea"/></svg>
-  <p class="kicker reveal">Where it all began</p>
   <h2 class="sec-title reveal d1">And Then, There Was Us&hellip; <span class="heart">&#9825;</span></h2>
   <div class="divider reveal d1"><svg class="ic"><use href="#i-div"/></svg></div>
   <div class="story-card reveal d2">
@@ -759,7 +741,7 @@
         <div class="ico"><svg class="ic"><use href="#i-leaf"/></svg></div>
         <h3>Mehendi</h3>
         <div class="when">Friday · 22 January 2027</div>
-        <div class="where">Venue to be announced</div>
+        <div class="where">Our residence &mdash; Krishna Kunj Duplex</div>
         <div class="dress"><div class="lbl">Dress code</div>
           <div class="val">Indo-western · Teal Green</div>
           <div class="swatches"><i style="background:#0f6b57"></i><i style="background:#1d8f6e"></i><i style="background:#5bc9a8"></i></div>
@@ -942,57 +924,6 @@
     v.addEventListener('play',function(){ reel.classList.add('playing'); });
     v.addEventListener('pause',function(){ reel.classList.remove('playing'); });
     v.addEventListener('timeupdate',function(){ if(v.duration){ bar.style.width=(v.currentTime/v.duration*100)+'%'; } });
-  })();
-
-  /* Scratch-to-reveal date */
-  (function(){
-    var wrap=document.getElementById('scratchDate'); if(!wrap)return;
-    var cv=document.getElementById('scratchCanvas'), ctx=cv.getContext('2d');
-    var hint=document.getElementById('scratchHint');
-    var revealed=false, drawing=false, last=0;
-    function coat(w,h){
-      ctx.globalCompositeOperation='source-over';
-      var g=ctx.createLinearGradient(0,0,w,h);
-      g.addColorStop(0,'#d9b24f'); g.addColorStop(.45,'#f4e6b0'); g.addColorStop(.55,'#f8efc9'); g.addColorStop(1,'#c89a35');
-      ctx.fillStyle=g; ctx.fillRect(0,0,w,h);
-      for(var i=0;i<80;i++){ ctx.fillStyle='rgba(255,255,255,'+(Math.random()*0.22)+')'; ctx.fillRect(Math.random()*w,Math.random()*h,2,2); }
-      ctx.fillStyle='rgba(120,70,20,.82)';
-      ctx.font='600 '+Math.max(11,Math.round(h*0.2))+'px Marcellus, serif';
-      ctx.textAlign='center'; ctx.textBaseline='middle';
-      ctx.fillText('✦  Scratch here  ✦', w/2, h/2);
-    }
-    function size(){
-      var r=wrap.getBoundingClientRect(); if(!r.width)return;
-      var dpr=window.devicePixelRatio||1;
-      cv.width=Math.round(r.width*dpr); cv.height=Math.round(r.height*dpr);
-      cv.style.width=r.width+'px'; cv.style.height=r.height+'px';
-      ctx.setTransform(dpr,0,0,dpr,0,0);
-      if(!revealed) coat(r.width,r.height);
-    }
-    function at(e){ var r=cv.getBoundingClientRect(); var t=e.touches&&e.touches[0];
-      return { x:(t?t.clientX:e.clientX)-r.left, y:(t?t.clientY:e.clientY)-r.top }; }
-    function erase(e){
-      if(!drawing||revealed)return; if(e.cancelable)e.preventDefault();
-      var p=at(e); ctx.globalCompositeOperation='destination-out';
-      ctx.beginPath(); ctx.arc(p.x,p.y,17,0,6.2832); ctx.fill();
-      check();
-    }
-    function check(){
-      var now=Date.now(); if(now-last<140)return; last=now;
-      var d; try{ d=ctx.getImageData(0,0,cv.width,cv.height).data; }catch(_){ return; }
-      var c=0,t=0; for(var i=3;i<d.length;i+=64){ t++; if(d[i]<40)c++; }
-      if(t && c/t>0.5){ revealed=true; wrap.classList.add('revealed'); if(hint)hint.style.opacity='0'; }
-    }
-    cv.addEventListener('mousedown',function(e){ drawing=true; erase(e); });
-    cv.addEventListener('mousemove',erase);
-    window.addEventListener('mouseup',function(){ drawing=false; });
-    cv.addEventListener('touchstart',function(e){ drawing=true; erase(e); },{passive:false});
-    cv.addEventListener('touchmove',erase,{passive:false});
-    window.addEventListener('touchend',function(){ drawing=false; });
-    window.addEventListener('resize',size);
-    if(document.fonts&&document.fonts.ready){ document.fonts.ready.then(size); }
-    window.addEventListener('load',size);
-    size();
   })();
 </script>
 </body>
