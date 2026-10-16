@@ -133,6 +133,13 @@
     font-size:2.1rem;line-height:1.45;margin-top:10px;}
   .story .heart{color:var(--pink);}
 
+  /* ====== REEL ====== */
+  .reel{background:var(--cream);text-align:center;overflow:hidden;}
+  .reel-embed{max-width:400px;margin:6px auto 0;}
+  .reel-embed .instagram-media{margin:0 auto!important;}
+  .reel-fallback{font-family:"Marcellus",serif;font-size:.88rem;letter-spacing:.5px;color:var(--teal);margin-top:16px;}
+  .reel-fallback a{color:var(--magenta);text-decoration:none;border-bottom:1px solid var(--pink);}
+
   /* ====== shared headings ====== */
   .kicker{font-family:"Marcellus",serif;letter-spacing:4px;text-transform:uppercase;font-size:.8rem;color:var(--teal);margin-bottom:8px;text-align:center;}
   .sec-title{font-family:"Rozha One",serif;color:var(--maroon);font-size:clamp(2rem,8vw,2.8rem);line-height:1.1;text-align:center;}
@@ -629,6 +636,19 @@
   </div>
 </section>
 
+<!-- ===== REEL ===== -->
+<section class="reel">
+  <p class="kicker reveal">Our hard launch &#128640;</p>
+  <h2 class="sec-title reveal d1">Catch us on the &rsquo;gram</h2>
+  <div class="divider reveal d1"><svg class="ic"><use href="#i-div"/></svg></div>
+  <div class="reel-embed reveal d2">
+    <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DX4jX2mTEdp/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style="background:#FFF;border:0;border-radius:14px;box-shadow:0 14px 30px rgba(156,26,86,.14);margin:0 auto;max-width:400px;min-width:260px;padding:0;width:100%;">
+      <a href="https://www.instagram.com/reel/DX4jX2mTEdp/" target="_blank" rel="noopener">View this reel on Instagram</a>
+    </blockquote>
+    <p class="reel-fallback">Not loading? <a href="https://www.instagram.com/reel/DX4jX2mTEdp/" target="_blank" rel="noopener">Watch it on Instagram &rarr;</a></p>
+  </div>
+</section>
+
 <!-- ===== COUNTDOWN ===== -->
 <section class="countdown">
   <svg class="sticker" viewBox="0 0 48 48" style="top:18px;right:20px;width:50px;height:50px;opacity:.95;--r:10deg"><use href="#c-beach"/></svg>
@@ -842,5 +862,6 @@
   }
   window.openEnv=openEnv;
 </script>
+<script async src="https://www.instagram.com/embed.js"></script>
 </body>
 </html>
