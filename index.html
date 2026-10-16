@@ -79,6 +79,15 @@
   .hero-date{margin-top:26px;position:relative;z-index:2;font-family:"Marcellus",serif;letter-spacing:3px;
     font-size:1.05rem;color:#fff;opacity:0;animation:fadeUp 1s ease forwards 2.1s;}
   .hero-date b{color:var(--pink-soft);}
+  /* scratch-to-reveal date */
+  .scratch{position:relative;width:min(84%,300px);height:78px;margin:26px auto 0;border-radius:14px;overflow:hidden;z-index:2;}
+  .scratch-under{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;}
+  .scratch .sd-day,.scratch .sd-time{font-family:"Marcellus",serif;letter-spacing:3px;font-size:.72rem;color:var(--pink-soft);text-transform:uppercase;}
+  .scratch .sd-main{font-family:"Rozha One",serif;font-size:1.55rem;line-height:1;color:#fff;letter-spacing:.5px;}
+  .scratch-canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none;cursor:crosshair;}
+  .scratch.revealed .scratch-canvas{opacity:0;transition:opacity .7s ease;pointer-events:none;}
+  .scratch-hint{margin:10px auto 0;position:relative;z-index:2;font-family:"Marcellus",serif;letter-spacing:2px;
+    font-size:.66rem;text-transform:uppercase;color:var(--gold-lt);transition:opacity .5s ease;}
   .scroll-hint{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);z-index:3;
     color:rgba(255,255,255,.85);font-family:"Marcellus",serif;letter-spacing:2px;font-size:.72rem;
     text-transform:uppercase;text-align:center;opacity:0;animation:fadeIn 1s ease forwards 2.6s;}
@@ -135,12 +144,44 @@
 
   /* ====== REEL ====== */
   .reel{background:var(--cream);text-align:center;overflow:hidden;}
-  .reel-embed{max-width:340px;margin:6px auto 0;}
-  .reel-video{width:100%;max-width:320px;aspect-ratio:9/16;display:block;margin:0 auto;
-    border-radius:16px;background:#000;object-fit:cover;
-    box-shadow:0 16px 34px rgba(156,26,86,.22);border:1px solid rgba(255,255,255,.5);}
+  .reel-embed{max-width:320px;margin:6px auto 0;}
   .reel-fallback{font-family:"Marcellus",serif;font-size:.88rem;letter-spacing:.5px;color:var(--teal);margin-top:16px;}
   .reel-fallback a{color:var(--magenta);text-decoration:none;border-bottom:1px solid var(--pink);}
+  /* Instagram-reel styled player */
+  .ig-reel{position:relative;width:100%;max-width:320px;aspect-ratio:9/16;margin:0 auto;
+    border-radius:18px;overflow:hidden;background:#000;cursor:pointer;user-select:none;-webkit-user-select:none;
+    box-shadow:0 16px 34px rgba(156,26,86,.22);border:1px solid rgba(255,255,255,.5);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+  .ig-reel .reel-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;background:#000;}
+  .ig-reel::before{content:"";position:absolute;left:0;right:0;top:0;height:78px;z-index:2;pointer-events:none;
+    background:linear-gradient(180deg,rgba(0,0,0,.42),transparent);}
+  .ig-reel::after{content:"";position:absolute;left:0;right:0;bottom:0;height:48%;z-index:2;pointer-events:none;
+    background:linear-gradient(0deg,rgba(0,0,0,.6),rgba(0,0,0,.12) 58%,transparent);}
+  .ig-top{position:absolute;top:11px;left:13px;right:13px;z-index:4;display:flex;align-items:center;justify-content:space-between;pointer-events:none;color:#fff;}
+  .ig-top .ig-reels{font-weight:700;font-size:1.02rem;letter-spacing:.2px;text-shadow:0 1px 3px rgba(0,0,0,.5);}
+  .ig-top svg{width:22px;height:22px;filter:drop-shadow(0 1px 2px rgba(0,0,0,.5));}
+  .ig-playpause{position:absolute;inset:0;z-index:5;display:flex;align-items:center;justify-content:center;background:transparent;border:0;padding:0;cursor:pointer;pointer-events:none;}
+  .ig-playpause svg{width:66px;height:66px;opacity:.95;filter:drop-shadow(0 2px 8px rgba(0,0,0,.55));transition:opacity .2s ease,transform .2s ease;}
+  .ig-reel.playing .ig-playpause svg{opacity:0;transform:scale(.5);}
+  .ig-rail{position:absolute;right:10px;bottom:98px;z-index:4;display:flex;flex-direction:column;align-items:center;gap:16px;pointer-events:none;color:#fff;}
+  .ig-act{display:flex;flex-direction:column;align-items:center;gap:3px;}
+  .ig-act svg{width:28px;height:28px;filter:drop-shadow(0 1px 3px rgba(0,0,0,.55));}
+  .ig-act span{font-size:.68rem;font-weight:600;text-shadow:0 1px 2px rgba(0,0,0,.6);}
+  .ig-disc{width:28px;height:28px;border-radius:7px;overflow:hidden;border:2px solid #fff;margin-top:2px;box-shadow:0 1px 3px rgba(0,0,0,.5);}
+  .ig-disc img{width:100%;height:100%;object-fit:cover;display:block;}
+  .ig-meta{position:absolute;left:13px;right:56px;bottom:16px;z-index:4;color:#fff;pointer-events:none;text-align:left;}
+  .ig-user{display:flex;align-items:center;gap:8px;margin-bottom:7px;}
+  .ig-ava{width:30px;height:30px;border-radius:50%;object-fit:cover;border:1.5px solid #fff;}
+  .ig-user b{font-size:.82rem;font-weight:600;text-shadow:0 1px 2px rgba(0,0,0,.6);}
+  .ig-follow{font-size:.72rem;font-weight:600;border:1px solid rgba(255,255,255,.85);border-radius:7px;padding:2px 9px;}
+  .ig-cap{font-size:.78rem;line-height:1.32;text-shadow:0 1px 2px rgba(0,0,0,.6);
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+  .ig-cap .tag{color:#d6e4ff;}
+  .ig-audio{display:flex;align-items:center;gap:6px;margin-top:8px;font-size:.72rem;overflow:hidden;}
+  .ig-audio svg{width:13px;height:13px;flex:none;filter:drop-shadow(0 1px 2px rgba(0,0,0,.6));}
+  .ig-audio span{white-space:nowrap;text-shadow:0 1px 2px rgba(0,0,0,.6);}
+  .ig-progress{position:absolute;left:0;right:0;bottom:0;height:3px;z-index:5;background:rgba(255,255,255,.28);}
+  .ig-progress i{display:block;height:100%;width:0;background:#fff;transition:width .15s linear;}
 
   /* ====== shared headings ====== */
   .kicker{font-family:"Marcellus",serif;letter-spacing:4px;text-transform:uppercase;font-size:.8rem;color:var(--teal);margin-bottom:8px;text-align:center;}
@@ -592,7 +633,15 @@
     <span class="weds">weds</span>
     <span class="name n2">Vaishnavi</span>
   </div>
-  <p class="hero-date">SUNDAY · <b>24 JANUARY 2027</b> · 10 AM</p>
+  <div class="scratch" id="scratchDate">
+    <div class="scratch-under">
+      <span class="sd-day">Sunday</span>
+      <span class="sd-main">24 January 2027</span>
+      <span class="sd-time">10 AM</span>
+    </div>
+    <canvas class="scratch-canvas" id="scratchCanvas"></canvas>
+  </div>
+  <p class="scratch-hint" id="scratchHint">&#128072; Scratch to reveal the date</p>
   <p class="hero-date" style="animation-delay:2.3s;font-size:.9rem;letter-spacing:2px;">Pancham Party Plot, Vadodara</p>
   <div class="scroll-hint">Scroll for details<svg class="ic"><use href="#i-chevron"/></svg></div>
 </section>
@@ -644,10 +693,32 @@
   <h2 class="sec-title reveal d1">Catch us on the &rsquo;gram</h2>
   <div class="divider reveal d1"><svg class="ic"><use href="#i-div"/></svg></div>
   <div class="reel-embed reveal d2">
-    <video class="reel-video" controls playsinline preload="metadata" poster="media/reel-poster.jpg">
-      <source src="media/reel.mp4" type="video/mp4">
-      Your browser can&rsquo;t play this video. <a href="https://www.instagram.com/reel/DX4jX2mTEdp/">Watch it on Instagram</a>.
-    </video>
+    <div class="ig-reel" id="igReel">
+      <video class="reel-video" id="reelVid" playsinline loop preload="metadata" poster="media/reel-poster.jpg">
+        <source src="media/reel.mp4" type="video/mp4">
+      </video>
+      <div class="ig-top">
+        <span class="ig-reels">Reels</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+      </div>
+      <button class="ig-playpause" id="igPlay" aria-label="Play video" type="button">
+        <svg viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg>
+      </button>
+      <div class="ig-rail" aria-hidden="true">
+        <div class="ig-act"><svg viewBox="0 0 24 24" fill="#fff"><path d="M12 21s-7.5-4.6-10-9.1C.3 8.6 2 5 5.4 5c2 0 3.3 1.1 4.1 2.3L12 10l2.5-2.7C15.3 6.1 16.6 5 18.6 5 22 5 23.7 8.6 22 11.9 19.5 16.4 12 21 12 21z"/></svg><span>2,418</span></div>
+        <div class="ig-act"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.9 8.9 0 0 1-4-.9L3 21l1.4-4.2A8.4 8.4 0 0 1 12 3a8.4 8.4 0 0 1 9 8.5z"/></svg><span>126</span></div>
+        <div class="ig-act"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg><span>Share</span></div>
+        <div class="ig-act"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></div>
+        <div class="ig-act"><svg viewBox="0 0 24 24" fill="#fff"><circle cx="12" cy="5" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="12" cy="19" r="1.6"/></svg></div>
+        <div class="ig-disc"><img src="media/reel-poster.jpg" alt=""></div>
+      </div>
+      <div class="ig-meta">
+        <div class="ig-user"><img class="ig-ava" src="media/reel-poster.jpg" alt=""><b>rohittt.singh</b><span class="ig-follow">Follow</span></div>
+        <div class="ig-cap">Hard Launch &#128640; &#10084;&#65039; &#9786;&#65039; &#129503;  <span class="tag">#thailand #reelstrending</span></div>
+        <div class="ig-audio"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l10-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="16" cy="16" r="3"/></svg><span>rohittt.singh &middot; Original audio</span></div>
+      </div>
+      <div class="ig-progress"><i id="igBar"></i></div>
+    </div>
     <p class="reel-fallback"><a href="https://www.instagram.com/reel/DX4jX2mTEdp/" target="_blank" rel="noopener">View on Instagram &#8599;</a></p>
   </div>
 </section>
@@ -862,6 +933,67 @@
     setTimeout(function(){ ov.style.display='none'; },3100);
   }
   window.openEnv=openEnv;
+
+  /* Instagram-styled reel: tap to play/pause + progress bar */
+  (function(){
+    var reel=document.getElementById('igReel'); if(!reel)return;
+    var v=document.getElementById('reelVid'), bar=document.getElementById('igBar');
+    reel.addEventListener('click',function(){ if(v.paused){ v.play(); } else { v.pause(); } });
+    v.addEventListener('play',function(){ reel.classList.add('playing'); });
+    v.addEventListener('pause',function(){ reel.classList.remove('playing'); });
+    v.addEventListener('timeupdate',function(){ if(v.duration){ bar.style.width=(v.currentTime/v.duration*100)+'%'; } });
+  })();
+
+  /* Scratch-to-reveal date */
+  (function(){
+    var wrap=document.getElementById('scratchDate'); if(!wrap)return;
+    var cv=document.getElementById('scratchCanvas'), ctx=cv.getContext('2d');
+    var hint=document.getElementById('scratchHint');
+    var revealed=false, drawing=false, last=0;
+    function coat(w,h){
+      ctx.globalCompositeOperation='source-over';
+      var g=ctx.createLinearGradient(0,0,w,h);
+      g.addColorStop(0,'#d9b24f'); g.addColorStop(.45,'#f4e6b0'); g.addColorStop(.55,'#f8efc9'); g.addColorStop(1,'#c89a35');
+      ctx.fillStyle=g; ctx.fillRect(0,0,w,h);
+      for(var i=0;i<80;i++){ ctx.fillStyle='rgba(255,255,255,'+(Math.random()*0.22)+')'; ctx.fillRect(Math.random()*w,Math.random()*h,2,2); }
+      ctx.fillStyle='rgba(120,70,20,.82)';
+      ctx.font='600 '+Math.max(11,Math.round(h*0.2))+'px Marcellus, serif';
+      ctx.textAlign='center'; ctx.textBaseline='middle';
+      ctx.fillText('✦  Scratch here  ✦', w/2, h/2);
+    }
+    function size(){
+      var r=wrap.getBoundingClientRect(); if(!r.width)return;
+      var dpr=window.devicePixelRatio||1;
+      cv.width=Math.round(r.width*dpr); cv.height=Math.round(r.height*dpr);
+      cv.style.width=r.width+'px'; cv.style.height=r.height+'px';
+      ctx.setTransform(dpr,0,0,dpr,0,0);
+      if(!revealed) coat(r.width,r.height);
+    }
+    function at(e){ var r=cv.getBoundingClientRect(); var t=e.touches&&e.touches[0];
+      return { x:(t?t.clientX:e.clientX)-r.left, y:(t?t.clientY:e.clientY)-r.top }; }
+    function erase(e){
+      if(!drawing||revealed)return; if(e.cancelable)e.preventDefault();
+      var p=at(e); ctx.globalCompositeOperation='destination-out';
+      ctx.beginPath(); ctx.arc(p.x,p.y,17,0,6.2832); ctx.fill();
+      check();
+    }
+    function check(){
+      var now=Date.now(); if(now-last<140)return; last=now;
+      var d; try{ d=ctx.getImageData(0,0,cv.width,cv.height).data; }catch(_){ return; }
+      var c=0,t=0; for(var i=3;i<d.length;i+=64){ t++; if(d[i]<40)c++; }
+      if(t && c/t>0.5){ revealed=true; wrap.classList.add('revealed'); if(hint)hint.style.opacity='0'; }
+    }
+    cv.addEventListener('mousedown',function(e){ drawing=true; erase(e); });
+    cv.addEventListener('mousemove',erase);
+    window.addEventListener('mouseup',function(){ drawing=false; });
+    cv.addEventListener('touchstart',function(e){ drawing=true; erase(e); },{passive:false});
+    cv.addEventListener('touchmove',erase,{passive:false});
+    window.addEventListener('touchend',function(){ drawing=false; });
+    window.addEventListener('resize',size);
+    if(document.fonts&&document.fonts.ready){ document.fonts.ready.then(size); }
+    window.addEventListener('load',size);
+    size();
+  })();
 </script>
 </body>
 </html>
